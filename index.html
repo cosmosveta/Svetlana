@@ -3,457 +3,273 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Светлана · косметолог</title>
+<title>Светлана — косметолог</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #FBF9F6;
-  --bg-soft: #F1F6FB;
-  --surface: #FFFFFF;
-  --ink: #26242B;
-  --muted: #6C7A8A;
-  --line: #E4EBF2;
-  --sky: #CFE2F3;
-  --sky-soft: #E8F1F9;
-  --accent: #E0457B;
-  --accent-ink: #FFFFFF;
-  --accent-soft: #FCE8EF;
-  --shadow: 0 12px 32px rgba(91, 124, 153, .13);
-  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --sans: "Manrope", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  box-sizing: border-box;
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  color-scheme: light;
+:root{
+  --bg:#f9f8f5; --card:#ffffff; --ink:#1f1d29; --muted:#6b7388; --line:#e6e9f0;
+  --pink:#cf4f7b; --pink-dark:#b83f69; --chip:#e9eff7;
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Manrope',system-ui,sans-serif;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #121A24; --bg-soft: #172230; --surface: #1A2634; --ink: #F3EFEA; --muted: #9FB0C2;
-    --line: #263547; --sky: #2A4259; --sky-soft: #1E2F42; --accent: #EE5C90; --accent-soft: #3A2230;
-    --shadow: 0 12px 32px rgba(0, 0, 0, .35);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #121A24; --bg-soft: #172230; --surface: #1A2634; --ink: #F3EFEA; --muted: #9FB0C2;
-  --line: #263547; --sky: #2A4259; --sky-soft: #1E2F42; --accent: #EE5C90; --accent-soft: #3A2230;
-  --shadow: 0 12px 32px rgba(0, 0, 0, .35);
-  color-scheme: dark;
-}
-html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--sans); font-size: 15px; line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-}
-.wrap { max-width: 520px; margin: 0 auto; padding: 0 20px; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;padding-bottom:env(safe-area-inset-bottom,0)}
+.wrap{max-width:560px;margin:0 auto;padding:0 20px}
+section{padding:36px 0 8px}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.15}
+h1{font-size:40px;text-align:center}
+h2{font-size:34px;text-align:center}
+.lead{color:var(--muted);text-align:center;margin-top:10px}
+.hero{text-align:center;padding:64px 0 48px;position:relative}
+.hero::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);z-index:-1;
+  background:radial-gradient(120% 70% at 80% 0%,#dce6f3 0%,rgba(220,230,243,0) 60%),linear-gradient(#f4f6f9,#f9f8f5)}
+.eyebrow{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.hero h1{font-size:76px;font-weight:500;margin-top:22px;line-height:1}
+.tagline{font-family:var(--serif);font-style:italic;font-size:32px;color:var(--pink);margin-top:14px}
+.divider{display:flex;align-items:center;justify-content:center;gap:16px;margin:34px 0}
+.divider span{height:1px;width:34%;background:var(--line)}
+.divider i{color:var(--pink);font-style:normal;font-size:14px}
+.intro{color:var(--muted);font-size:18px;line-height:1.6;max-width:440px;margin:0 auto 32px}
+.big{display:block;width:100%;margin-top:14px;padding:19px 26px;font-size:18px}
+.btn-outline{border:1px solid var(--line);background:rgba(255,255,255,.6);color:var(--ink);font:600 18px var(--sans);border-radius:999px;cursor:pointer}
+.btn-outline.big{display:block;width:100%;margin-top:14px;padding:19px 26px}
 
-/* Hero */
-.hero { position: relative; overflow: hidden; padding: 56px 0 40px; background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%); }
-.blob { position: absolute; border-radius: 50%; filter: blur(48px); opacity: .75; pointer-events: none; }
-.blob.a { width: 240px; height: 240px; background: var(--sky); top: -70px; right: -60px; }
-.blob.b { width: 170px; height: 170px; background: var(--accent-soft); bottom: -30px; left: -50px; }
-.hero .wrap { position: relative; text-align: center; }
-.eyebrow { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
-h1 { font-family: var(--serif); font-weight: 500; font-size: 62px; line-height: 1; margin: 14px 0 6px; letter-spacing: .01em; }
-.hero .role { font-family: var(--serif); font-style: italic; font-size: 24px; color: var(--accent); margin: 0 0 18px; }
-.hero p.lead { margin: 0 auto 28px; max-width: 340px; color: var(--muted); }
-.orn { display: flex; align-items: center; gap: 12px; justify-content: center; color: var(--accent); font-size: 12px; margin: 0 auto 26px; max-width: 200px; }
-.orn::before, .orn::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-.hero-actions { display: grid; gap: 10px; max-width: 320px; margin: 0 auto; }
+.chips{display:flex;gap:10px;overflow-x:auto;padding:22px 20px 6px;margin:0 -20px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--muted);font:500 15px var(--sans);padding:11px 20px;border-radius:999px;cursor:pointer}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
 
-/* Buttons */
-.btn {
-  appearance: none; border: 0; cursor: pointer; font: inherit; font-weight: 600; font-size: 15px;
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 48px; padding: 0 26px; border-radius: 999px; text-decoration: none;
-  background: var(--accent); color: var(--accent-ink);
-  box-shadow: 0 10px 22px rgba(224, 69, 123, .26);
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-.btn:active { transform: scale(.98); }
-.btn.ghost { background: transparent; color: var(--ink); box-shadow: none; border: 1px solid var(--line); }
-.btn.small { min-height: 40px; padding: 0 20px; font-size: 14px; box-shadow: 0 6px 14px rgba(224, 69, 123, .22); }
-.btn.outline { background: transparent; color: var(--accent); box-shadow: none; border: 1px solid var(--accent); }
-.link { background: none; border: 0; padding: 8px 4px; font: inherit; font-size: 14px; color: var(--muted); cursor: pointer; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.list{display:grid;gap:16px;margin-top:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:26px 24px;box-shadow:0 6px 24px rgba(31,29,41,.05)}
+.cat{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.card h3{font-size:27px;margin-top:8px}
+.variant{color:var(--ink);font-weight:500;margin-top:6px}
+.desc{color:var(--muted);margin-top:10px}
+.time{display:inline-block;background:var(--chip);border-radius:999px;padding:6px 16px;font-size:14px;margin-top:16px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px}
+.btn{border:0;background:var(--pink);color:#fff;font:600 16px var(--sans);padding:15px 26px;border-radius:999px;cursor:pointer;box-shadow:0 8px 20px rgba(207,79,123,.28)}
+.btn:active{background:var(--pink-dark)}
+.link{background:none;border:0;border-bottom:1px solid var(--line);color:var(--muted);font:500 16px var(--sans);padding:2px 0;cursor:pointer}
 
-/* Sections */
-section { padding: 36px 0 8px; }
-h2 { font-family: var(--serif); font-weight: 500; font-size: 36px; line-height: 1.1; margin: 0 0 6px; text-align: center; }
-.sub { text-align: center; color: var(--muted); margin: 0 0 22px; }
+.promo{background:linear-gradient(135deg,#f7e6ee,#e8eff8);border-color:transparent}
+.promo .cat{color:var(--pink)}
 
-.chips { display: flex; gap: 8px; overflow-x: auto; padding: 4px 20px 14px; margin: 0 -20px 6px; scrollbar-width: none; }
-.chips::-webkit-scrollbar { display: none; }
-.chip {
-  flex: none; appearance: none; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
-  padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted);
-}
-.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-
-.cards { display: grid; gap: 14px; }
-.card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
-  padding: 20px 20px 16px; box-shadow: var(--shadow);
-  animation: rise .5s ease both;
-}
-.card h3 { font-family: var(--serif); font-weight: 600; font-size: 23px; line-height: 1.2; margin: 0 0 6px; }
-.card p { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
-.cat { font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.tag { font-size: 12.5px; padding: 4px 11px; border-radius: 999px; background: var(--sky-soft); color: var(--ink); }
-.tag.gift { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
-.actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-
-/* Promos */
-.promos { display: grid; gap: 14px; }
-.promo {
-  border-radius: 22px; padding: 22px 20px; border: 1px solid var(--line);
-  background: linear-gradient(135deg, var(--accent-soft) 0%, var(--sky-soft) 100%);
-  animation: rise .5s ease both;
-}
-.promo .kicker { font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
-.promo h3 { font-family: var(--serif); font-weight: 600; font-size: 26px; line-height: 1.15; margin: 0 0 8px; }
-.promo p { margin: 0 0 16px; color: var(--ink); opacity: .8; font-size: 14.5px; }
-
-/* Form */
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; padding: 24px 20px; box-shadow: var(--shadow); }
-label.lbl { display: block; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; font-weight: 500; }
-.field { margin-bottom: 20px; }
-input[type="text"], select {
-  width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: var(--bg);
-  border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; outline: none; appearance: none;
-}
-select { background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 22px) 52%, calc(100% - 16px) 52%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 40px; }
-input[type="text"]:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
-input.err { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
-.times { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.time {
-  appearance: none; font: inherit; font-weight: 600; cursor: pointer; padding: 14px 6px; border-radius: 14px;
-  border: 1px solid var(--line); background: var(--bg); color: var(--ink); transition: all .15s ease;
-}
-.time[aria-pressed="true"] { background: var(--sky-soft); border-color: var(--accent); color: var(--accent); }
-.bubble {
-  background: var(--sky-soft); border-radius: 18px 18px 18px 6px; padding: 14px 16px;
-  font-size: 14.5px; white-space: pre-wrap; color: var(--ink);
-}
-.hint { font-size: 12.5px; color: var(--muted); margin: 8px 0 20px; }
-.submit { width: 100%; }
-
-footer { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0 44px; }
-footer .name { font-family: var(--serif); font-size: 24px; color: var(--ink); display: block; margin-bottom: 4px; }
-
-.toast {
-  position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); transform: translate(-50%, 20px);
-  background: var(--ink); color: var(--bg); padding: 12px 20px; border-radius: 999px; font-size: 14px;
-  opacity: 0; pointer-events: none; transition: all .25s ease; max-width: calc(100% - 40px); text-align: center; z-index: 10;
-}
-.toast.show { opacity: 1; transform: translate(-50%, 0); }
-
-@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .card { animation: none; } html { scroll-behavior: auto; } }
+form{margin-top:22px}
+label,.flabel{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
+label:first-child{margin-top:0}
+input,select{width:100%;font:400 17px var(--sans);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:15px 20px;outline:none;appearance:none;-webkit-appearance:none}
+input:focus,select:focus{border-color:var(--pink)}
+.times{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.times button{border:1px solid var(--line);background:var(--bg);color:var(--ink);font:500 16px var(--sans);padding:13px 0;border-radius:999px;cursor:pointer}
+.times button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.submit{width:100%;margin-top:26px}
+.err{color:#b3261e;font-size:14px;margin-top:10px;min-height:20px}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:36px 0 44px}
+:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
 </style>
 </head>
 <body>
+<div class="wrap">
 
 <header class="hero">
-  <div class="blob a"></div><div class="blob b"></div>
-  <div class="wrap">
-    <div class="eyebrow">Косметолог · Калининград</div>
-    <h1>Светлана</h1>
-    <p class="role">уход, который заметен</p>
-    <div class="orn">✦</div>
-    <p class="lead">Индивидуальный подбор процедур для вашей кожи. Выберите то, что интересно, и напишите мне: отвечу лично.</p>
-    <div class="hero-actions">
-      <button class="btn" id="heroBook" type="button">Записаться</button>
-      <button class="btn ghost" id="heroCost" type="button">Узнать стоимость</button>
-    </div>
-  </div>
+  <p class="eyebrow">Косметолог · Калининград</p>
+  <h1>Светлана</h1>
+  <p class="tagline">уход, который заметен</p>
+  <div class="divider"><span></span><i>✦</i><span></span></div>
+  <p class="intro">Индивидуальный подбор процедур для вашей кожи. Выберите то, что интересно, и напишите мне: отвечу лично.</p>
+  <button class="btn big" type="button" id="heroBook">Записаться</button>
+  <button class="btn-outline big" type="button" id="heroAsk">Узнать стоимость</button>
 </header>
 
-<main class="wrap">
-  <section id="promos">
-    <h2>Акции</h2>
-    <p class="sub">Приятные подарки для вас и ваших близких</p>
-    <div class="promos" id="promos-list"></div>
-  </section>
+<section id="promos">
+  <h2>Акции</h2>
+  <p class="lead">Приятные подарки для вас и ваших близких</p>
+  <div class="list" id="promoList"></div>
+</section>
 
-  <section id="services">
-    <h2>Процедуры</h2>
-    <p class="sub">Нажмите «Узнать стоимость», и откроется личный чат со мной</p>
-    <div class="chips" id="chips" role="group" aria-label="Категории"></div>
-    <div class="cards" id="cards"></div>
-  </section>
+<section id="procedures">
+  <h2>Процедуры</h2>
+  <p class="lead">Нажмите «Узнать стоимость», и откроется личный чат со мной</p>
+  <div class="chips" id="chips"></div>
+  <div class="list" id="list"></div>
+</section>
 
-  <section id="book">
-    <h2>Запись на приём</h2>
-    <p class="sub">Заполните форму, а сообщение мы составим за вас</p>
-    <div class="panel">
-      <div class="field">
-        <label class="lbl" for="name">Ваше имя</label>
-        <input type="text" id="name" placeholder="Как к вам обращаться" autocomplete="given-name">
-      </div>
-      <div class="field">
-        <label class="lbl" for="code">Код от подруги</label>
-        <input type="text" id="code" placeholder="Если вас рекомендовали" autocomplete="off">
-      </div>
-      <div class="field">
-        <label class="lbl" for="proc">Процедура</label>
-        <select id="proc"></select>
-      </div>
-      <div class="field">
-        <label class="lbl">Когда удобно прийти</label>
-        <div class="times" id="times" role="group" aria-label="Время визита">
-          <button class="time" type="button" data-t="утром">Утро</button>
-          <button class="time" type="button" data-t="днём">День</button>
-          <button class="time" type="button" data-t="вечером">Вечер</button>
-        </div>
-      </div>
-      <label class="lbl">Ваше сообщение</label>
-      <div class="bubble" id="preview"></div>
-      <p class="hint">Оно откроется в чате со Светланой, останется только отправить.</p>
-      <button class="btn submit" id="send" type="button">Написать Светлане</button>
-    </div>
-  </section>
-</main>
+<section id="book">
+  <h2>Запись на приём</h2>
+  <p class="lead">Заполните форму, а сообщение мы составим за вас</p>
+  <div class="card" style="margin-top:22px">
+    <form id="form" novalidate>
+      <label for="name">Ваше имя</label>
+      <input id="name" type="text" placeholder="Как к вам обращаться" autocomplete="given-name">
 
-<footer>
-  <span class="name">Светлана</span>
-  Калининград, ул. Невского 39–43а<br>
-  Запись по сообщению в Telegram
-</footer>
+      <label for="proc">Процедура</label>
+      <select id="proc"></select>
 
-<div class="toast" id="toast" role="status"></div>
+      <span class="flabel">Удобное время</span>
+      <div class="times" id="times">
+        <button type="button" data-v="утро">Утро</button>
+        <button type="button" data-v="день">День</button>
+        <button type="button" data-v="вечер">Вечер</button>
+      </div>
+
+      <label for="code">Код от подруги</label>
+      <input id="code" type="text" placeholder="Если вас рекомендовали" autocomplete="off">
+
+      <p class="err" id="err" role="alert"></p>
+      <button class="btn submit" type="submit">Написать Светлане</button>
+    </form>
+  </div>
+</section>
+
+<footer>Запись и вопросы — в личных сообщениях Telegram</footer>
+</div>
 
 <script>
-// Настройки. Когда будет известен username Светланы в Telegram, впишите его сюда без @.
-var CONFIG = {
-  username: "KosmoSSveta",
-  phone: "79210088584",
-  promosCsv: "https://docs.google.com/spreadsheets/d/1D5uLGJHhM2YSSUZoU_YcmdtIQIxRbRJOQ5m7U39ixbA/gviz/tq?tqx=out:csv&sheet=%D0%90%D0%BA%D1%86%D0%B8%D0%B8",
-  sheetCsv: "https://docs.google.com/spreadsheets/d/1D5uLGJHhM2YSSUZoU_YcmdtIQIxRbRJOQ5m7U39ixbA/gviz/tq?tqx=out:csv&sheet=%D0%9F%D1%80%D0%BE%D1%86%D0%B5%D0%B4%D1%83%D1%80%D1%8B"   // таблица «Процедуры для мини-приложения (без цен)»; если не открылась, показывается встроенный список
+var USERNAME = 'KosmoSSveta';
+var tg = window.Telegram && window.Telegram.WebApp;
+if (tg) { try { tg.ready(); tg.expand(); } catch(e){} }
+
+// Все процедуры из таблицы «Процедуры для мини-приложения (без цен)»
+var I='Инъекции', M='Мезотерапия и стройность', P='Плазмотерапия', C='Карбокситерапия', K='Контурная пластика', U='Уходы и пилинги', Z='Чистка лица';
+var BIO='Полинуклеотиды, аминокислоты, гиалуроновая кислота, пептиды. Увлажнение, лифтинг, уменьшение морщин.';
+var COL='Для упругости, эластичности кожи и выраженного лифтинга.';
+var PLA='Увлажнение, улучшение качества и естественное восстановление структуры кожи.';
+var NOI='Для тех, кто предпочитает уход без уколов.';
+var PROCS = [
+ {c:I,t:'Биоревитализация',v:'Лицо',d:BIO},
+ {c:I,t:'Биоревитализация',v:'Лицо + шея (5 мл)',d:BIO},
+ {c:I,t:'Коллагенотерапия',v:'Лицо',d:COL},
+ {c:I,t:'Коллагенотерапия',v:'Лицо + шея',d:COL},
+ {c:I,t:'Армирование «Жидкие нити»'},
+ {c:I,t:'Ботокс'},
+ {c:I,t:'Полимолочная кислота',d:'Стимуляция собственного коллагена, глубокое уплотнение кожи.'},
+ {c:M,t:'Мезотерапия лица',d:'Коррекция пигментации, морщин, расширенных пор, тусклого цвета лица.'},
+ {c:M,t:'Мезотерапия для волос',d:'Стимуляция роста, укрепление фолликулов и улучшение густоты.'},
+ {c:M,t:'Коррекция фигуры (липолитики)',v:'Живот / бока / бедра, 1 зона',d:'Капилляромезотерапия в подарок.'},
+ {c:M,t:'Коррекция фигуры (липолитики)',v:'Двойной подбородок',d:'Капилляромезотерапия в подарок.'},
+ {c:M,t:'Биогель «Стройность»',d:'Эффективный липолитический комплекс (1 флакон).'},
+ {c:P,t:'Плазмотерапия',v:'PPP, PRP, iPRF (1 пробирка)',d:PLA},
+ {c:P,t:'Плазмогель',d:PLA},
+ {c:P,t:'4D Плазма (комплекс)',d:PLA},
+ {c:C,t:'Инъекционная карбокситерапия',v:'По точкам спины'},
+ {c:C,t:'Инъекционная карбокситерапия',v:'Лицо / волосы'},
+ {c:K,t:'Контурная пластика губ',v:'1 мл, Корея'},
+ {c:K,t:'Контурная пластика губ',v:'0,5 мл'},
+ {c:K,t:'Скулы / углы челюсти',v:'1 мл'},
+ {c:U,t:'Безынъекционный уход',v:'Пилинг + фракционная мезотерапия + сыворотка + маска',d:NOI},
+ {c:U,t:'Безынъекционный уход',v:'Фракционная мезотерапия + сыворотка + маска',d:NOI},
+ {c:U,t:'Комплекс «Омоложение»',d:'Массаж лица + пилинг для омоложения + альгинатная маска.',m:60},
+ {c:U,t:'Пилинги по типу кожи',d:'Салициловый, миндальный, пировиноградный, молочный, Джесснера, азелаиновый. Увлажнение, осветление, акне, рубцы.',m:40},
+ {c:U,t:'Жёлтый пилинг',d:'Выраженное омоложение, выравнивание тона и эффект сияния.'},
+ {c:Z,t:'Комбинированная / механическая чистка',d:'Полный протокол: очищение, тонизация, предпилинг, пилинг, гидрирование, чистка элементов, ферментативная маска, маска по типу кожи, сыворотка, крем.',m:90},
+ {c:Z,t:'Ультразвуковая чистка',d:'Глубокое очищение: тонизация, предпилинг, пилинг, гидрирование, УЗ-чистка, ферментативная маска, маска по типу кожи, сыворотка, крем.',m:60}
+];
+var PROMOS = [
+ {t:'Биоревитализация лица и подарок',d:'При биоревитализации лица биоревитализация кистей или шеи в подарок на ваш выбор.'},
+ {t:'Приведите близких',d:'Приведите подругу, маму, сестру, тётю, бабушку или мужа и получите приятный подарок от Светланы.'},
+ {t:'Вас рекомендовали?',d:'Назовите код подруги при записи, и вас ждёт гарантированный подарок.'}
+];
+
+function full(p){ return p.v ? p.t + ': ' + p.v.charAt(0).toLowerCase() + p.v.slice(1) : p.t; }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+function openChat(text){
+  var url = 'https://t.me/' + USERNAME + '?text=' + encodeURIComponent(text);
+  if (tg && tg.openTelegramLink) { tg.openTelegramLink(url); } else { window.open(url, '_blank'); }
+}
+
+// Фильтры
+var cats = ['Все'];
+PROCS.forEach(function(p){ if (cats.indexOf(p.c) < 0) cats.push(p.c); });
+var active = 'Все';
+var chipsEl = document.getElementById('chips');
+cats.forEach(function(c){
+  var b = document.createElement('button');
+  b.className = 'chip' + (c === active ? ' on' : '');
+  b.textContent = c;
+  b.onclick = function(){
+    active = c;
+    Array.prototype.forEach.call(chipsEl.children, function(x){ x.classList.toggle('on', x === b); });
+    render();
+  };
+  chipsEl.appendChild(b);
+});
+
+function render(){
+  var html = '';
+  PROCS.forEach(function(p, i){
+    if (active !== 'Все' && p.c !== active) return;
+    html += '<article class="card"><div class="cat">' + esc(p.c) + '</div><h3>' + esc(p.t) + '</h3>' +
+      (p.v ? '<p class="variant">' + esc(p.v) + '</p>' : '') +
+      (p.d ? '<p class="desc">' + esc(p.d) + '</p>' : '') +
+      (p.m ? '<span class="time">' + p.m + ' мин</span>' : '') +
+      '<div class="row"><button class="btn" data-ask="' + i + '">Узнать стоимость</button>' +
+      '<button class="link" data-book="' + i + '">Записаться</button></div></article>';
+  });
+  document.getElementById('list').innerHTML = html;
+}
+render();
+
+document.getElementById('promoList').innerHTML = PROMOS.map(function(a, i){
+  return '<article class="card promo"><div class="cat">Подарок</div><h3>' + esc(a.t) + '</h3><p class="desc">' + esc(a.d) +
+    '</p><div class="row"><button class="btn" data-promo="' + i + '">Узнать подробнее</button></div></article>';
+}).join('');
+
+// Выбор процедуры в форме
+var sel = document.getElementById('proc');
+sel.innerHTML = '<option value="">Выберу при общении</option>' + PROCS.map(function(p, i){
+  return '<option value="' + i + '">' + esc(full(p)) + '</option>';
+}).join('');
+
+// Клики
+document.addEventListener('click', function(e){
+  var t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.ask !== undefined) {
+    var p = PROCS[+t.dataset.ask];
+    openChat('Здравствуйте, Светлана! Подскажите, пожалуйста, стоимость процедуры «' + full(p) + '».');
+  } else if (t.dataset.book !== undefined) {
+    sel.value = t.dataset.book;
+    document.getElementById('book').scrollIntoView({behavior:'smooth'});
+  } else if (t.dataset.promo !== undefined) {
+    var a = PROMOS[+t.dataset.promo];
+    openChat('Здравствуйте, Светлана! Расскажите, пожалуйста, подробнее об акции «' + a.t + '».');
+  }
+});
+
+document.getElementById('heroBook').onclick = function(){
+  document.getElementById('book').scrollIntoView({behavior:'smooth'});
+};
+document.getElementById('heroAsk').onclick = function(){
+  openChat('Здравствуйте, Светлана! Подскажите, пожалуйста, стоимость процедур.');
 };
 
-// Встроенный список (копия листа «Услуги и цены», без цен): категория, услуга, описание, длительность
-var SERVICES = [
-  ["Инъекции","Биоревитализация: лицо","Полинуклеотиды, аминокислоты, гиалуроновая кислота, пептиды. Увлажнение, лифтинг, уменьшение морщин.",""],
-  ["Инъекции","Биоревитализация: лицо + шея (5 мл)","Полинуклеотиды, аминокислоты, гиалуроновая кислота, пептиды. Увлажнение, лифтинг, уменьшение морщин.",""],
-  ["Инъекции","Коллагенотерапия: лицо","Для упругости, эластичности кожи и выраженного лифтинга.",""],
-  ["Инъекции","Коллагенотерапия: лицо + шея","Для упругости, эластичности кожи и выраженного лифтинга.",""],
-  ["Инъекции","Армирование «Жидкие нити»","",""],
-  ["Инъекции","Ботокс","",""],
-  ["Инъекции","Полимолочная кислота","Стимуляция собственного коллагена, глубокое уплотнение кожи.",""],
-  ["Мезотерапия и стройность","Мезотерапия лица","Коррекция пигментации, морщин, расширенных пор, тусклого цвета лица.",""],
-  ["Мезотерапия и стройность","Мезотерапия для волос","Стимуляция роста, укрепление фолликулов и улучшение густоты.",""],
-  ["Мезотерапия и стройность","Коррекция фигуры (липолитики): живот / бока / бедра, 1 зона","Капилляромезотерапия в подарок.",""],
-  ["Мезотерапия и стройность","Коррекция фигуры (липолитики): двойной подбородок","Капилляромезотерапия в подарок.",""],
-  ["Мезотерапия и стройность","Биогель «Стройность»","Эффективный липолитический комплекс (1 флакон).",""],
-  ["Плазмотерапия","Плазмотерапия: PPP, PRP, iPRF (1 пробирка)","Увлажнение, улучшение качества и естественное восстановление структуры кожи.",""],
-  ["Плазмотерапия","Плазмогель","Увлажнение, улучшение качества и естественное восстановление структуры кожи.",""],
-  ["Плазмотерапия","4D Плазма (комплекс)","Увлажнение, улучшение качества и естественное восстановление структуры кожи.",""],
-  ["Карбокситерапия","Инъекционная карбокситерапия: по точкам спины","",""],
-  ["Карбокситерапия","Инъекционная карбокситерапия: лицо / волосы","",""],
-  ["Контурная пластика","Губы (1 мл, Корея)","",""],
-  ["Контурная пластика","Губы (0,5 мл)","",""],
-  ["Контурная пластика","Скулы / углы челюсти (1 мл)","",""],
-  ["Уходы и пилинги","Безынъекционный уход: пилинг + фракционная мезотерапия + сыворотка + маска","Для тех, кто предпочитает уход без уколов.",""],
-  ["Уходы и пилинги","Безынъекционный уход: фракционная мезотерапия + сыворотка + маска","Для тех, кто предпочитает уход без уколов.",""],
-  ["Уходы и пилинги","Комплекс «Омоложение»","Массаж лица + пилинг для омоложения + альгинатная маска.","60"],
-  ["Уходы и пилинги","Пилинги по типу кожи","Салициловый, миндальный, пировиноградный, молочный, Джесснера, азелаиновый. Увлажнение, осветление, акне, рубцы.","40"],
-  ["Уходы и пилинги","Жёлтый пилинг","Выраженное омоложение, выравнивание тона и эффект сияния.",""],
-  ["Чистка лица","Комбинированная / механическая чистка","Полный протокол: очищение, тонизация, предпилинг, пилинг, гидрирование, чистка элементов, ферментативная маска, маска по типу кожи, сыворотка, крем.","90"],
-  ["Чистка лица","Ультразвуковая чистка","Глубокое очищение: тонизация, предпилинг, пилинг, гидрирование, УЗ-чистка, ферментативная маска, маска по типу кожи, сыворотка, крем.","60"]
-];
+// Время суток
+var when = '';
+document.getElementById('times').addEventListener('click', function(e){
+  var b = e.target.closest('button'); if (!b) return;
+  when = b.dataset.v;
+  Array.prototype.forEach.call(this.children, function(x){ x.classList.toggle('on', x === b); });
+});
 
-// Встроенные акции: название, описание (основной источник: лист «Акции» в таблице)
-var PROMOS = [
-  ["Биоревитализация лица и подарок","При биоревитализации лица биоревитализация кистей или шеи в подарок на ваш выбор."],
-  ["Приведите близких","Приведите подругу, маму, сестру, тётю, бабушку или мужа и получите приятный подарок от Светланы."],
-  ["Вас рекомендовали?","Назовите код подруги при записи, и вас ждёт гарантированный подарок."]
-];
-
-var tg = window.Telegram && window.Telegram.WebApp;
-var state = { cat: "Все", time: "" };
-var $ = function (id) { return document.getElementById(id); };
-
-function h(tag, attrs, children) {
-  var el = document.createElement(tag);
-  Object.keys(attrs || {}).forEach(function (k) {
-    if (k === "text") el.textContent = attrs[k]; else el.setAttribute(k, attrs[k]);
-  });
-  (children || []).forEach(function (c) { el.appendChild(c); });
-  return el;
-}
-
-function toast(msg) {
-  var t = $("toast"); t.textContent = msg; t.classList.add("show");
-  clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.remove("show"); }, 3200);
-}
-
-function openChat(text) {
-  var url;
-  if (CONFIG.username) {
-    url = "https://t.me/" + CONFIG.username + "?text=" + encodeURIComponent(text);
-  } else {
-    url = "https://t.me/+" + CONFIG.phone;
-    try { navigator.clipboard.writeText(text); toast("Сообщение скопировано. Вставьте его в чат."); } catch (e) {}
-  }
-  if (tg && tg.openTelegramLink) tg.openTelegramLink(url);
-  else window.open(url, "_blank", "noopener");
-}
-
-function costText(name) {
-  return name
-    ? "Здравствуйте, Светлана! Подскажите, пожалуйста, стоимость процедуры «" + name + "»."
-    : "Здравствуйте, Светлана! Подскажите, пожалуйста, стоимость ваших процедур.";
-}
-
-function bookingText(forPreview) {
-  var name = $("name").value.trim();
-  var proc = $("proc").value;
-  var s = "Здравствуйте, Светлана!";
-  if (name) s += " Меня зовут " + name + ".";
-  else if (forPreview) s += " Меня зовут …";
-  s += proc ? " Хочу записаться на «" + proc + "»." : " Хочу записаться на процедуру.";
-  if (state.time) s += " Мне удобнее прийти " + state.time + ".";
-  var code = $("code").value.trim();
-  if (code) s += " Меня рекомендовали, код: " + code + ".";
-  s += " Подскажите, пожалуйста, свободное время. Заранее благодарю!";
-  return s;
-}
-
-function categories() {
-  var seen = ["Все"];
-  SERVICES.forEach(function (s) { if (seen.indexOf(s[0]) < 0) seen.push(s[0]); });
-  return seen;
-}
-
-function renderChips() {
-  var box = $("chips"); box.innerHTML = "";
-  categories().forEach(function (c) {
-    var b = h("button", { "class": "chip", type: "button", text: c, "aria-pressed": String(c === state.cat) });
-    b.addEventListener("click", function () { state.cat = c; renderChips(); renderCards(); });
-    box.appendChild(b);
-  });
-}
-
-function renderCards() {
-  var box = $("cards"); box.innerHTML = "";
-  SERVICES.filter(function (s) { return state.cat === "Все" || s[0] === state.cat; }).forEach(function (s, i) {
-    var card = h("article", { "class": "card" });
-    card.style.animationDelay = Math.min(i, 8) * 40 + "ms";
-    card.appendChild(h("div", { "class": "cat", text: s[0] }));
-    card.appendChild(h("h3", { text: s[1] }));
-    var gift = /подарок/i.test(s[2]);
-    if (s[2] && !gift) card.appendChild(h("p", { text: s[2] }));
-    var tags = [];
-    if (gift) tags.push(h("span", { "class": "tag gift", text: "В подарок: капилляромезотерапия" }));
-    if (s[3]) tags.push(h("span", { "class": "tag", text: s[3] + " мин" }));
-    if (tags.length) card.appendChild(h("div", { "class": "tags" }, tags));
-    var cost = h("button", { "class": "btn small", type: "button", text: "Узнать стоимость" });
-    cost.addEventListener("click", function () { openChat(costText(s[1])); });
-    var book = h("button", { "class": "link", type: "button", text: "Записаться" });
-    book.addEventListener("click", function () { $("proc").value = s[1]; updatePreview(); $("book").scrollIntoView(); });
-    card.appendChild(h("div", { "class": "actions" }, [cost, book]));
-    box.appendChild(card);
-  });
-}
-
-function renderPromos() {
-  var box = $("promos-list"); box.innerHTML = "";
-  $("promos").style.display = PROMOS.length ? "" : "none";
-  PROMOS.forEach(function (p, i) {
-    var card = h("article", { "class": "promo" });
-    card.style.animationDelay = i * 60 + "ms";
-    card.appendChild(h("div", { "class": "kicker", text: "Подарок" }));
-    card.appendChild(h("h3", { text: p[0] }));
-    card.appendChild(h("p", { text: p[1] }));
-    var b = h("button", { "class": "btn small", type: "button", text: "Узнать подробнее" });
-    b.addEventListener("click", function () {
-      openChat("Здравствуйте, Светлана! Хочу воспользоваться акцией «" + p[0] + "». Подскажите, пожалуйста, подробности.");
-    });
-    card.appendChild(b);
-    box.appendChild(card);
-  });
-}
-
-function loadPromos() {
-  if (!CONFIG.promosCsv) return Promise.resolve();
-  return fetch(CONFIG.promosCsv).then(function (r) { return r.text(); }).then(function (txt) {
-    if (txt.charAt(0) === "<") return;
-    PROMOS = parseCsv(txt).slice(1).filter(function (r) {
-      return r[0] && (r[2] || "").trim().toLowerCase() === "да";
-    }).map(function (r) { return [r[0].trim(), (r[1] || "").trim()]; });
-  }).catch(function () {});
-}
-
-function renderSelect() {
-  var sel = $("proc"); sel.innerHTML = "";
-  sel.appendChild(h("option", { value: "", text: "Выберите процедуру" }));
-  SERVICES.forEach(function (s) { sel.appendChild(h("option", { value: s[1], text: s[1] })); });
-}
-
-function updatePreview() { $("preview").textContent = bookingText(true); }
-
-function parseCsv(t) {
-  var rows = [], r = [], c = "", q = false;
-  for (var i = 0; i < t.length; i++) {
-    var ch = t[i];
-    if (q) { if (ch === '"') { if (t[i + 1] === '"') { c += '"'; i++; } else q = false; } else c += ch; }
-    else if (ch === '"') q = true;
-    else if (ch === ",") { r.push(c); c = ""; }
-    else if (ch === "\n") { r.push(c); rows.push(r); r = []; c = ""; }
-    else if (ch !== "\r") c += ch;
-  }
-  if (c || r.length) { r.push(c); rows.push(r); }
-  return rows;
-}
-
-function loadSheet() {
-  if (!CONFIG.sheetCsv) return Promise.resolve();
-  return fetch(CONFIG.sheetCsv).then(function (r) { return r.text(); }).then(function (txt) {
-    if (txt.charAt(0) === "<") return;
-    var list = parseCsv(txt).slice(1).filter(function (r) {
-      return r[1] && (r[4] || "").trim().toLowerCase() === "да";
-    }).map(function (r) { return [r[0].trim(), r[1].trim(), (r[3] || "").trim(), (r[2] || "").trim()]; });
-    if (list.length) SERVICES = list;
-  }).catch(function () {});
-}
-
-function init() {
-  if (tg) {
-    try {
-      tg.ready(); tg.expand();
-      if (tg.colorScheme) document.documentElement.setAttribute("data-theme", tg.colorScheme);
-      var u = tg.initDataUnsafe && tg.initDataUnsafe.user;
-      if (u && u.first_name) $("name").value = u.first_name;
-    } catch (e) {}
-  }
-  renderChips(); renderCards(); renderPromos(); renderSelect(); updatePreview();
-
-  $("heroBook").addEventListener("click", function () { $("book").scrollIntoView(); });
-  $("heroCost").addEventListener("click", function () { openChat(costText("")); });
-  $("name").addEventListener("input", function () { this.classList.remove("err"); updatePreview(); });
-  $("proc").addEventListener("change", updatePreview);
-  $("code").addEventListener("input", updatePreview);
-  Array.prototype.forEach.call(document.querySelectorAll(".time"), function (b) {
-    b.addEventListener("click", function () {
-      var on = b.getAttribute("aria-pressed") === "true";
-      Array.prototype.forEach.call(document.querySelectorAll(".time"), function (x) { x.setAttribute("aria-pressed", "false"); });
-      state.time = on ? "" : b.getAttribute("data-t");
-      if (!on) b.setAttribute("aria-pressed", "true");
-      updatePreview();
-    });
-  });
-  $("send").addEventListener("click", function () {
-    if (!$("name").value.trim()) { $("name").classList.add("err"); $("name").focus(); toast("Подскажите, пожалуйста, как вас зовут"); return; }
-    openChat(bookingText(false));
-  });
-
-  Promise.all([loadSheet(), loadPromos()]).then(function () { renderPromos(); state.cat = "Все"; renderChips(); renderCards(); renderSelect(); updatePreview(); });
-}
-init();
+// Отправка
+document.getElementById('form').addEventListener('submit', function(e){
+  e.preventDefault();
+  var name = document.getElementById('name').value.trim();
+  var code = document.getElementById('code').value.trim();
+  var err = document.getElementById('err');
+  if (!name) { err.textContent = 'Напишите, как к вам обращаться.'; return; }
+  if (!when) { err.textContent = 'Выберите удобное время: утро, день или вечер.'; return; }
+  err.textContent = '';
+  var msg = 'Здравствуйте, Светлана! Меня зовут ' + name + '. Хочу записаться';
+  if (sel.value !== '') msg += ' на процедуру «' + full(PROCS[+sel.value]) + '»';
+  msg += '. Мне удобно ' + (when === 'утро' ? 'утром' : when === 'день' ? 'днём' : 'вечером') + '.';
+  if (code) msg += ' Меня рекомендовала подруга, код: ' + code + '.';
+  msg += ' Подскажите, пожалуйста, свободное время. Спасибо!';
+  openChat(msg);
+});
 </script>
 </body>
 </html>
