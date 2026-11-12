@@ -106,6 +106,17 @@ h2 { font-family: var(--serif); font-weight: 500; font-size: 36px; line-height: 
 .tag.gift { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
 .actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 
+/* Promos */
+.promos { display: grid; gap: 14px; }
+.promo {
+  border-radius: 22px; padding: 22px 20px; border: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--accent-soft) 0%, var(--sky-soft) 100%);
+  animation: rise .5s ease both;
+}
+.promo .kicker { font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+.promo h3 { font-family: var(--serif); font-weight: 600; font-size: 26px; line-height: 1.15; margin: 0 0 8px; }
+.promo p { margin: 0 0 16px; color: var(--ink); opacity: .8; font-size: 14.5px; }
+
 /* Form */
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; padding: 24px 20px; box-shadow: var(--shadow); }
 label.lbl { display: block; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; font-weight: 500; }
@@ -162,6 +173,12 @@ footer .name { font-family: var(--serif); font-size: 24px; color: var(--ink); di
 </header>
 
 <main class="wrap">
+  <section id="promos">
+    <h2>Акции</h2>
+    <p class="sub">Приятные подарки для вас и ваших близких</p>
+    <div class="promos" id="promos-list"></div>
+  </section>
+
   <section id="services">
     <h2>Процедуры</h2>
     <p class="sub">Нажмите «Узнать стоимость», и откроется личный чат со мной</p>
@@ -176,6 +193,10 @@ footer .name { font-family: var(--serif); font-size: 24px; color: var(--ink); di
       <div class="field">
         <label class="lbl" for="name">Ваше имя</label>
         <input type="text" id="name" placeholder="Как к вам обращаться" autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label class="lbl" for="code">Код от подруги</label>
+        <input type="text" id="code" placeholder="Если вас рекомендовали" autocomplete="off">
       </div>
       <div class="field">
         <label class="lbl" for="proc">Процедура</label>
@@ -210,7 +231,8 @@ footer .name { font-family: var(--serif); font-size: 24px; color: var(--ink); di
 var CONFIG = {
   username: "KosmoSSveta",
   phone: "79210088584",
-  sheetCsv: ""   // ссылка на опубликованный лист «Услуги и цены» в формате CSV; пусто = встроенный список
+  promosCsv: "https://docs.google.com/spreadsheets/d/1D5uLGJHhM2YSSUZoU_YcmdtIQIxRbRJOQ5m7U39ixbA/gviz/tq?tqx=out:csv&sheet=%D0%90%D0%BA%D1%86%D0%B8%D0%B8",
+  sheetCsv: "https://docs.google.com/spreadsheets/d/1D5uLGJHhM2YSSUZoU_YcmdtIQIxRbRJOQ5m7U39ixbA/gviz/tq?tqx=out:csv&sheet=%D0%9F%D1%80%D0%BE%D1%86%D0%B5%D0%B4%D1%83%D1%80%D1%8B"   // таблица «Процедуры для мини-приложения (без цен)»; если не открылась, показывается встроенный список
 };
 
 // Встроенный список (копия листа «Услуги и цены», без цен): категория, услуга, описание, длительность
@@ -242,6 +264,13 @@ var SERVICES = [
   ["Уходы и пилинги","Жёлтый пилинг","Выраженное омоложение, выравнивание тона и эффект сияния.",""],
   ["Чистка лица","Комбинированная / механическая чистка","Полный протокол: очищение, тонизация, предпилинг, пилинг, гидрирование, чистка элементов, ферментативная маска, маска по типу кожи, сыворотка, крем.","90"],
   ["Чистка лица","Ультразвуковая чистка","Глубокое очищение: тонизация, предпилинг, пилинг, гидрирование, УЗ-чистка, ферментативная маска, маска по типу кожи, сыворотка, крем.","60"]
+];
+
+// Встроенные акции: название, описание (основной источник: лист «Акции» в таблице)
+var PROMOS = [
+  ["Биоревитализация лица и подарок","При биоревитализации лица биоревитализация кистей или шеи в подарок на ваш выбор."],
+  ["Приведите близких","Приведите подругу, маму, сестру, тётю, бабушку или мужа и получите приятный подарок от Светланы."],
+  ["Вас рекомендовали?","Назовите код подруги при записи, и вас ждёт гарантированный подарок."]
 ];
 
 var tg = window.Telegram && window.Telegram.WebApp;
@@ -288,6 +317,8 @@ function bookingText(forPreview) {
   else if (forPreview) s += " Меня зовут …";
   s += proc ? " Хочу записаться на «" + proc + "»." : " Хочу записаться на процедуру.";
   if (state.time) s += " Мне удобнее прийти " + state.time + ".";
+  var code = $("code").value.trim();
+  if (code) s += " Меня рекомендовали, код: " + code + ".";
   s += " Подскажите, пожалуйста, свободное время. Заранее благодарю!";
   return s;
 }
@@ -329,6 +360,34 @@ function renderCards() {
   });
 }
 
+function renderPromos() {
+  var box = $("promos-list"); box.innerHTML = "";
+  $("promos").style.display = PROMOS.length ? "" : "none";
+  PROMOS.forEach(function (p, i) {
+    var card = h("article", { "class": "promo" });
+    card.style.animationDelay = i * 60 + "ms";
+    card.appendChild(h("div", { "class": "kicker", text: "Подарок" }));
+    card.appendChild(h("h3", { text: p[0] }));
+    card.appendChild(h("p", { text: p[1] }));
+    var b = h("button", { "class": "btn small", type: "button", text: "Узнать подробнее" });
+    b.addEventListener("click", function () {
+      openChat("Здравствуйте, Светлана! Хочу воспользоваться акцией «" + p[0] + "». Подскажите, пожалуйста, подробности.");
+    });
+    card.appendChild(b);
+    box.appendChild(card);
+  });
+}
+
+function loadPromos() {
+  if (!CONFIG.promosCsv) return Promise.resolve();
+  return fetch(CONFIG.promosCsv).then(function (r) { return r.text(); }).then(function (txt) {
+    if (txt.charAt(0) === "<") return;
+    PROMOS = parseCsv(txt).slice(1).filter(function (r) {
+      return r[0] && (r[2] || "").trim().toLowerCase() === "да";
+    }).map(function (r) { return [r[0].trim(), (r[1] || "").trim()]; });
+  }).catch(function () {});
+}
+
 function renderSelect() {
   var sel = $("proc"); sel.innerHTML = "";
   sel.appendChild(h("option", { value: "", text: "Выберите процедуру" }));
@@ -354,9 +413,10 @@ function parseCsv(t) {
 function loadSheet() {
   if (!CONFIG.sheetCsv) return Promise.resolve();
   return fetch(CONFIG.sheetCsv).then(function (r) { return r.text(); }).then(function (txt) {
+    if (txt.charAt(0) === "<") return;
     var list = parseCsv(txt).slice(1).filter(function (r) {
-      return r[1] && (r[5] || "").trim().toLowerCase() === "да";
-    }).map(function (r) { return [r[0].trim(), r[1].trim(), (r[4] || "").trim(), (r[3] || "").trim()]; });
+      return r[1] && (r[4] || "").trim().toLowerCase() === "да";
+    }).map(function (r) { return [r[0].trim(), r[1].trim(), (r[3] || "").trim(), (r[2] || "").trim()]; });
     if (list.length) SERVICES = list;
   }).catch(function () {});
 }
@@ -370,12 +430,13 @@ function init() {
       if (u && u.first_name) $("name").value = u.first_name;
     } catch (e) {}
   }
-  renderChips(); renderCards(); renderSelect(); updatePreview();
+  renderChips(); renderCards(); renderPromos(); renderSelect(); updatePreview();
 
   $("heroBook").addEventListener("click", function () { $("book").scrollIntoView(); });
   $("heroCost").addEventListener("click", function () { openChat(costText("")); });
   $("name").addEventListener("input", function () { this.classList.remove("err"); updatePreview(); });
   $("proc").addEventListener("change", updatePreview);
+  $("code").addEventListener("input", updatePreview);
   Array.prototype.forEach.call(document.querySelectorAll(".time"), function (b) {
     b.addEventListener("click", function () {
       var on = b.getAttribute("aria-pressed") === "true";
@@ -390,7 +451,7 @@ function init() {
     openChat(bookingText(false));
   });
 
-  loadSheet().then(function () { state.cat = "Все"; renderChips(); renderCards(); renderSelect(); updatePreview(); });
+  Promise.all([loadSheet(), loadPromos()]).then(function () { renderPromos(); state.cat = "Все"; renderChips(); renderCards(); renderSelect(); updatePreview(); });
 }
 init();
 </script>
